@@ -1,0 +1,36 @@
+# Build
+bin/
+obj/
+
+# User-specific
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio
+.vscode/
+.vs/
+
+# Logs
+*.log
+
+# Env files (credenciais)
+.env
+
+# Config do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Pacotes
+*.nupkg
+*.snupkg
+packages/
+*.dll
+
+# Teste / Coverage
+TestResult*/
+coverage*/
+
+# Migrations geradas automaticam
