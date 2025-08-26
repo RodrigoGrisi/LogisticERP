@@ -7,11 +7,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Carrega variáveis do .env
 Env.Load();
 
+// Inclui variáveis de ambiente na configuração do builder
+builder.Configuration.AddEnvironmentVariables();
+
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
-string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(connectionString, 

@@ -1,46 +1,52 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace LogisticERP.Domain
+namespace LogisticERP.Domain;
+
+[Table("Motoristas")]
+public class Motorista
 {
-    public class Motorista
-    {
-        [Key]
-        public int MotoristaID { get; set; }
 
-        [StringLength(100)]
-        public string Nome { get; set; } = string.Empty;
-        [StringLength(100)]
-        public string Email { get; set; } = string.Empty;
+    [Key]
+    public int MotoristaID { get; set; }
 
-        [StringLength(100)]
-        public string Endereco { get; set; } = string.Empty;
-        [StringLength(300)]
-        public string Observacao { get; set; } = string.Empty;
-        [StringLength(300)]
-        public string FotoUrl { get; set; } = string.Empty;
+    [Required]
+    [StringLength(100)]
+    public string Nome { get; set; } = string.Empty;
 
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+    [Required]
+    [StringLength(100)]
+    public string Email { get; set; } = string.Empty;
 
-        // Documentos e dados pessoais
-        [StringLength(11)]
-        public string CPF { get; set; } = string.Empty;
-        [StringLength(20)]
-        public string CNH { get; set; } = string.Empty;
+    [StringLength(100)]
+    public string Endereco { get; set; } = string.Empty;
+    
+    [StringLength(300)]
+    public string Observacao { get; set; } = string.Empty;
+    
+    [StringLength(300)]
+    public string FotoUrl { get; set; } = string.Empty;
 
-        // Categoria da CNH não pode ser string aleatória, melhor um enum
-        public CategoriaCNH CategoriaCNH { get; set; } = CategoriaCNH.B;
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        // Telefone pode ficar como string pra manter DDD, +55 etc
-        [StringLength(20)]
-        public string Telefone { get; set; } = string.Empty;
-    }
+    // Documentos e dados pessoais
+    [StringLength(11)]
+    public string CPF { get; set; } = string.Empty;
+    [StringLength(20)]
+    public string CNH { get; set; } = string.Empty;
 
-    public enum CategoriaCNH
-    {
-        A,
-        B,
-        C,
-        D,
-        E
-    }
+    public CategoriaCNH CategoriaCNH { get; set; } = CategoriaCNH.B;
+
+    // Telefone pode ficar como string pra manter DDD, +55 etc
+    [StringLength(20)]
+    public string Telefone { get; set; } = string.Empty;
+}
+
+public enum CategoriaCNH
+{
+    A,
+    B,
+    C,
+    D,
+    E
 }
