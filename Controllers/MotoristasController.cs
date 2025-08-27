@@ -12,6 +12,7 @@ public class MotoristasController : ControllerBase
 {
     private readonly AppDbContext _context;
 
+
     public MotoristasController(AppDbContext context)
     {
         _context = context;
@@ -22,7 +23,7 @@ public class MotoristasController : ControllerBase
     {
         var motoristas = _context.Motoristas?.ToList();
 
-        if(motoristas != null && motoristas.Count == 0)
+        if (motoristas != null && motoristas.Count == 0)
         {
             return NotFound();
         }
@@ -30,11 +31,11 @@ public class MotoristasController : ControllerBase
         return motoristas;
     }
 
-    [HttpGet("{id:int}", Name="ObterMotorista")]
+    [HttpGet("{id:int}", Name = "BuscarMotorista")]
     public ActionResult<Motorista> Get(int id)
     {
         var motorista = _context.Motoristas?.FirstOrDefault(m => m.MotoristaID == id);
-        if(motorista == null)
+        if (motorista == null)
         {
             return NotFound("Motorista não encontrado...");
         }
@@ -45,7 +46,7 @@ public class MotoristasController : ControllerBase
     public ActionResult Post(Motorista motorista)
     {
 
-        if(motorista == null)
+        if (motorista == null)
         {
             return BadRequest();
         }
@@ -53,8 +54,8 @@ public class MotoristasController : ControllerBase
         _context.Motoristas.Add(motorista);
         _context.SaveChanges();
 
-        return new CreatedAtRouteResult("ObterMotorista", 
-            new { id = motorista.MotoristaID  }, motorista);
+        return new CreatedAtRouteResult("BuscarMotorista",
+            new { id = motorista.MotoristaID }, motorista);
 
     }
 
@@ -62,7 +63,7 @@ public class MotoristasController : ControllerBase
     public ActionResult EditarDadosMotorista(int id, Motorista motorista)
     {
 
-        if(id != motorista.MotoristaID)
+        if (id != motorista.MotoristaID)
         {
             return BadRequest("não encontramos o motorista indicado.");
         }
@@ -80,7 +81,7 @@ public class MotoristasController : ControllerBase
 
         var motorista = _context.Motoristas?.FirstOrDefault(m => m.MotoristaID == id);
 
-        if(motorista is null)
+        if (motorista is null)
         {
             return NotFound("Motorista não localizado");
         }
@@ -91,7 +92,5 @@ public class MotoristasController : ControllerBase
         return Ok("Motorista Deletado com sucesso.");
 
     }
-
-
 
 }

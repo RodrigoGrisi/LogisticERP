@@ -1,8 +1,16 @@
 using LogisticERP.Context;
 using Microsoft.EntityFrameworkCore;
 using DotNetEnv;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Adiciona suporte a enums como string no JSON
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
 // Carrega variáveis do .env
 Env.Load();
@@ -14,6 +22,7 @@ string connectionString = builder.Configuration.GetConnectionString("DefaultConn
 
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApi();
 
 
