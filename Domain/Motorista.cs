@@ -40,6 +40,11 @@ public class Motorista
     // Telefone pode ficar como string pra manter DDD, +55 etc
     [StringLength(20)]
     public string Telefone { get; set; } = string.Empty;
+
+    public ICollection<Viagem> Viagens { get; set; } = new List<Viagem>();
+
+
+
 }
 
 public enum CategoriaCNH

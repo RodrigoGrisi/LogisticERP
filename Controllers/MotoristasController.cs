@@ -21,7 +21,9 @@ public class MotoristasController : ControllerBase
     [HttpGet]
     public ActionResult<IEnumerable<Motorista>> Get()
     {
-        var motoristas = _context.Motoristas?.ToList();
+        var motoristas = _context.Motoristas?
+            .Include(v => v.Viagens)
+            .ToList();
 
         if (motoristas != null && motoristas.Count == 0)
         {

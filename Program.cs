@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Adiciona suporte a enums como string no JSON
 builder.Services.AddControllers()
+    .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles)
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());

@@ -18,10 +18,20 @@ public class ViagensController : ControllerBase
     }
 
     [HttpGet("WithMotoristaDeatail")]
-    public ActionResult<IEnumerable<Viagem>> GetViagemPorMotoristas()
+    public ActionResult<IEnumerable<Viagem>> GetViagemWithMotoristas()
     {
         var viagens = _context.Viagens
             .Include(v => v.Motorista)
+            .ToList();
+
+        return viagens;
+    }
+
+    [HttpGet("WithNotasFiscaisDeatail")]
+    public ActionResult<IEnumerable<Viagem>> GetViagemWithNotasFiscais()
+    {
+        var viagens = _context.Viagens
+            .Include(v => v.NotasFiscais)
             .ToList();
 
         return viagens;

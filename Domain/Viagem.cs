@@ -5,8 +5,6 @@ namespace LogisticERP.Domain
 {
     public class Viagem
     {
-
-
         [Key]
         public int ViagemID { get; set; }
 
@@ -34,9 +32,10 @@ namespace LogisticERP.Domain
         [Required]
         public int MotoristaID { get; set; }
 
-        // Relacionamentos com outras entidades
-        public Veiculo Veiculo { get; set; }
+        public required Veiculo Veiculo { get; set; }
         public Motorista? Motorista { get; set; }
+
+        public ICollection<NotaFiscal> NotasFiscais { get; set; } = new Collection<NotaFiscal>();
 
     }
 

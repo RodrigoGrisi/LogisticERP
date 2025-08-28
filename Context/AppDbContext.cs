@@ -11,5 +11,7 @@ public class AppDbContext : DbContext
     public DbSet<Veiculo>? Veiculos { get; set; }
     public DbSet<Motorista>? Motoristas { get; set; }
     public DbSet<Viagem>? Viagens { get; set; }
+
+    public DbSet<NotaFiscal>? NotasFiscais { get; set; }
 }
 
