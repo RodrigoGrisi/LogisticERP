@@ -20,11 +20,23 @@ public class ViagensController : ControllerBase
     [HttpGet("WithMotoristaDeatail")]
     public ActionResult<IEnumerable<Viagem>> GetViagemWithMotoristas()
     {
-        var viagens = _context.Viagens
-            .Include(v => v.Motorista)
-            .ToList();
 
-        return viagens;
+        try
+        {
+            var viagens = _context.Viagens
+                .Include(v => v.Motorista)
+                .AsNoTracking()
+                .ToList();
+            return viagens;
+
+        }
+        catch (Exception)
+        {
+
+            return StatusCode(StatusCodes.Status500InternalServerError,
+                "Ocorreu um erro ao tratar sua solicitação.");
+
+        }
     }
 
     [HttpGet("WithNotasFiscaisDeatail")]
@@ -32,6 +44,7 @@ public class ViagensController : ControllerBase
     {
         var viagens = _context.Viagens
             .Include(v => v.NotasFiscais)
+            .AsNoTracking()
             .ToList();
 
         return viagens;
@@ -41,14 +54,18 @@ public class ViagensController : ControllerBase
     [HttpGet]
     public ActionResult<IEnumerable<Viagem>> Get()
     {
-        var viagens = _context.Viagens?.ToList();
 
-        if (viagens != null && viagens.Count == 0)
+        try
         {
-            return NotFound();
+            var viagens = _context.Viagens?.AsNoTracking().ToList();
+            return viagens;
+
+        }
+        catch (Exception)
+        {
+            return NotFound("Nenhuma viagem foi encontrada");
         }
 
-        return viagens;
     }
 
     [HttpGet("{id:int}", Name = "BuscarViagem")]

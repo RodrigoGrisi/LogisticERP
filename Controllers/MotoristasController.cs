@@ -36,12 +36,16 @@ public class MotoristasController : ControllerBase
     [HttpGet("{id:int}", Name = "BuscarMotorista")]
     public ActionResult<Motorista> Get(int id)
     {
-        var motorista = _context.Motoristas?.FirstOrDefault(m => m.MotoristaID == id);
-        if (motorista == null)
+
+        try
         {
-            return NotFound("Motorista não encontrado...");
-        }
+        var motorista = _context.Motoristas?.FirstOrDefault(m => m.MotoristaID == id);
         return motorista;
+        }
+        catch (Exception)
+        {
+            return NotFound($"Motorista não encontrado...");
+        }
     }
 
     [HttpPost]
