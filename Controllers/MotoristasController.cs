@@ -19,28 +19,19 @@ public class MotoristasController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<Motorista>> Get()
+    public async Task<ActionResult<IEnumerable<Motorista>>> Get()
     {
-        var motoristas = _context.Motoristas?
-            .Include(v => v.Viagens)
-            .ToList();
+        return await _context.Motoristas?.Include(v => v.Viagens).ToListAsync();
 
-        if (motoristas != null && motoristas.Count == 0)
-        {
-            return NotFound();
-        }
-
-        return motoristas;
     }
 
     [HttpGet("{id:int}", Name = "BuscarMotorista")]
-    public ActionResult<Motorista> Get(int id)
+    public async Task<ActionResult<Motorista>> Get(int id)
     {
 
         try
         {
-        var motorista = _context.Motoristas?.FirstOrDefault(m => m.MotoristaID == id);
-        return motorista;
+            return await _context.Motoristas?.FirstOrDefaultAsync(m => m.MotoristaID == id);
         }
         catch (Exception)
         {
