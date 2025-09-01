@@ -1,5 +1,7 @@
-﻿using LogisticERP.Context;
+﻿using AutoMapper;
+using LogisticERP.Context;
 using LogisticERP.Domain;
+using LogisticERP.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,17 +13,27 @@ namespace LogisticERP.Controllers;
 public class MotoristasController : ControllerBase
 {
     private readonly AppDbContext _context;
+    private readonly IMapper _mapper;
 
 
-    public MotoristasController(AppDbContext context)
+    public MotoristasController(AppDbContext context , IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Motorista>>> Get()
+    public async Task<ActionResult<IEnumerable<MotoristaDTO>>> Get()
     {
-        return await _context.Motoristas?.Include(v => v.Viagens).ToListAsync();
+
+        var motoristas = await _context.Motoristas?.ToListAsync();
+        if (motoristas is null)
+        {
+            return NotFound("Nenhum motorista cadastrado.");
+        }
+        var motoristaDTOs = _mapper.Map<IEnumerable<MotoristaDTO>>(motoristas);
+
+        return Ok(motoristaDTOs);
 
     }
 

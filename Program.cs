@@ -1,6 +1,9 @@
-using LogisticERP.Context;
-using Microsoft.EntityFrameworkCore;
+using Application.Mappings;
 using DotNetEnv;
+using LogisticERP.Context;
+using LogisticERP.DTOs.Mappings;
+using LogisticERP.DTOs.Mappings;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,7 +35,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     ServerVersion.AutoDetect(connectionString)));
 
 
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddMappings();
+
 
 var app = builder.Build();
 
