@@ -16,7 +16,7 @@ public class MotoristasController : ControllerBase
     private readonly IMapper _mapper;
 
 
-    public MotoristasController(AppDbContext context , IMapper mapper)
+    public MotoristasController(AppDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
@@ -31,34 +31,37 @@ public class MotoristasController : ControllerBase
         {
             return NotFound("Nenhum motorista cadastrado.");
         }
-        var motoristaDTOs = _mapper.Map<IEnumerable<MotoristaDTO>>(motoristas);
+        var motoristaDTO = _mapper.Map<IEnumerable<MotoristaDTO>>(motoristas);
 
-        return Ok(motoristaDTOs);
+        return Ok(motoristaDTO);
 
     }
 
     [HttpGet("{id:int}", Name = "BuscarMotorista")]
-    public async Task<ActionResult<Motorista>> Get(int id)
+    public async Task<ActionResult<MotoristaDTO>> Get(int id)
     {
+        var motorista = await _context.Motoristas
+            .FirstOrDefaultAsync(m => m.MotoristaID == id);
 
-        try
+        if (motorista is null)
         {
-            return await _context.Motoristas?.FirstOrDefaultAsync(m => m.MotoristaID == id);
+            return NotFound("Motorista não localizado.");
         }
-        catch (Exception)
-        {
-            return NotFound($"Motorista não encontrado...");
-        }
+
+        var motoristaDTO = _mapper.Map<MotoristaDTO>(motorista);
+        return Ok(motoristaDTO);
     }
 
     [HttpPost]
-    public ActionResult Post(Motorista motorista)
+    public ActionResult<MotoristaDTO> Post(MotoristaDTO motoristaDTO)
     {
 
-        if (motorista == null)
+        if (motoristaDTO == null)
         {
             return BadRequest();
         }
+
+        var motorista = _mapper.Map<Motorista>(motoristaDTO);
 
         _context.Motoristas.Add(motorista);
         _context.SaveChanges();
