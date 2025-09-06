@@ -57,9 +57,7 @@ public class MotoristasController : ControllerBase
     {
 
         if (motoristaDTO == null)
-        {
             return BadRequest();
-        }
 
         var motorista = _mapper.Map<Motorista>(motoristaDTO);
 
@@ -67,41 +65,42 @@ public class MotoristasController : ControllerBase
         _context.SaveChanges();
 
         return new CreatedAtRouteResult("BuscarMotorista",
-            new { id = motorista.MotoristaID }, motorista);
-
+            new { id = motoristaDTO.MotoristaID }, motoristaDTO);
     }
 
+
     [HttpPut("{id:int}")]
-    public ActionResult EditarDadosMotorista(int id, Motorista motorista)
+    public ActionResult<MotoristaDTO> EditarDadosMotorista(int id, MotoristaDTO motoristaDTO)
     {
+        var motorista = _mapper.Map<MotoristaDTO>(id);
 
         if (id != motorista.MotoristaID)
-        {
             return BadRequest("não encontramos o motorista indicado.");
-        }
 
         _context.Entry(motorista).State = EntityState.Modified;
         _context.SaveChanges();
 
-        return Ok(motorista);
+        var motoristaAtualizadoDTO = _mapper.Map<MotoristaDTO>(motorista);
+
+        return Ok(motoristaAtualizadoDTO);
 
     }
 
     [HttpDelete("{id:int}")]
-    public ActionResult DeletarMotorista(int id)
+    public ActionResult<MotoristaDTO> DeletarMotorista(int id)
     {
 
         var motorista = _context.Motoristas?.FirstOrDefault(m => m.MotoristaID == id);
 
         if (motorista is null)
-        {
             return NotFound("Motorista não localizado");
-        }
 
         _context.Motoristas.Remove(motorista);
         _context.SaveChanges();
 
-        return Ok("Motorista Deletado com sucesso.");
+        var motoristaDeletadoDTO = _mapper.Map<MotoristaDTO>(motorista);
+
+        return Ok(motoristaDeletadoDTO);
 
     }
 
